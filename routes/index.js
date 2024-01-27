@@ -21,7 +21,7 @@ router.post('/multiplicar', async function (req, res, next) {
 });
 
 router.get('/multiplicar', function(req, res, next) {
-  res.render('multiplicarForm', {
+  res.render('multiplicar', {
   title: 'Ejercicios Express-2',
   name: 'Tabla de Multiplicar desde el sitio /multiplicar'
  });
@@ -29,7 +29,7 @@ router.get('/multiplicar', function(req, res, next) {
 
 router.get('/generarQuiniela', function(req, res, next) {
   const quiniela = generarQuiniela();
-  res.render('generarQuinielaResult', { 
+  res.render('generarQuiniela', { 
     title: 'Ejercicios Express-3',
     name: 'Quiniela de fútbol:',
     quiniela
