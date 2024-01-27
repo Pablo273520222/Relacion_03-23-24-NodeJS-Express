@@ -36,7 +36,7 @@ io.on('connection', (socket) => {
   });
 
 
-  io.emit('num_Clientes', io.engine.clientsCount)
+  io.emit('num_Usuarios', io.engine.clientsCount)
 
   socket.on('disconnect', () => {
     console.log(`Este Usuario ha sido desconectado: ${socket.id}`);

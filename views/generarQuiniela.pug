@@ -23,7 +23,7 @@ block content
                 button.nav-link(data-toggle="modal", data-target="#exampleModal") Acerca De
 
   .container
-    h2#numClientes
+    h2#numUsuarios
     h1.text-center= name
     table.table.table-bordered.table-striped
       thead
@@ -49,10 +49,10 @@ block content
   script(src="/socket.io/socket.io.js")
   script.
     const socket = io();
-    const numClientes = document.getElementById('numClientes');
+    const numUsuarios = document.getElementById('numUsuarios');
 
-    socket.on('num_Clientes', num => {
-      numClientes.innerText = `Clientes conectados: ${num}`;
+    socket.on('num_Usuarios', num => {
+      numUsuarios.innerText = `Usuarios conectados: ${num}`;
     });
 
     async function generarQuiniela() {
