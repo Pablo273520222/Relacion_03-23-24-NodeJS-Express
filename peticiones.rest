@@ -1,0 +1,24 @@
+GET http://localhost:3000/multiplicar
+###
+
+POST http://localhost:3000/multiplicar
+###
+
+POST http://localhost:3000/multiplicar
+Content-Type: application/json
+
+{
+  "base": 10
+}
+###
+
+GET http://localhost:3000/generarQuiniela
+###
+
+POST http://localhost:3000/generarQuiniela
+Content-Type: application/json
+
+{
+  "param1": "value1",
+  "param2": "value2"
+}

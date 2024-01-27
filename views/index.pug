@@ -1,0 +1,65 @@
+extends layout
+
+block content
+  nav.navbar.navbar-expand-lg.navbar-light.bg-info
+    .container
+      button.navbar-toggler(type="button", data-toggle="collapse", data-target="#navbarNav", aria-controls="navbarNav", aria-expanded="false", aria-label="Toggle navigation")
+        span.navbar-toggler-icon
+      .collapse.navbar-collapse#navbarNav
+        ul.navbar-nav.ml-auto
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(href="/multiplicar", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false") Operaciones
+            ul.dropdown-menu
+              li.nav-item
+                a.nav-link(href="/multiplicar") Tabla de Multiplicar
+              li.nav-item
+                a.nav-link(href="/generarQuiniela") Generar Quiniela
+              li.nav-item
+                a.nav-link(href="/") Salir
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false") Ayuda
+            ul.dropdown-menu
+              li.nav-item
+                button.nav-link(data-toggle="modal", data-target="#exampleModal") Acerca De
+
+  .container
+    h1.text-center= name
+    form#multiplicar-form.text-center
+      label(for="base") Ingrese la base para la tabla de multiplicar:
+      input#base(type="number" name="base" required)
+      #resultado-container
+
+      .text-center
+        button.btn.btn-primary(type='button' onclick='generarTabla()' style='margin-top: 20px;') Generar Tabla
+
+  .modal.fade#exampleModal(tabindex="-1", aria-labelledby="exampleModalLabel", aria-hidden="true")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          h5.modal-title Acerca De
+          button.btn-close(type="button", data-dismiss="modal", aria-label="Close")
+        .modal-body
+          | Esto es una prueba
+        .modal-footer
+          button.btn.btn-info(type="button", data-dismiss="modal") Cerrar
+
+  script.
+    async function generarTabla() {
+      const base = document.getElementById('base').value;
+
+      try {
+        const response = await fetch('/multiplicar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ base }),
+        });
+
+        const resultHTML = await response.text();
+        document.getElementById('resultado-container').innerHTML = resultHTML;
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error generating multiplication table.');
+      }
+    }

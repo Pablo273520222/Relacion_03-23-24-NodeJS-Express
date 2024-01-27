@@ -1,0 +1,86 @@
+extends layout
+
+block content
+  nav.navbar.navbar-expand-lg.navbar-light.bg-info
+    .container
+      button.navbar-toggler(type="button", data-toggle="collapse", data-target="#navbarNav", aria-controls="navbarNav", aria-expanded="false", aria-label="Toggle navigation")
+        span.navbar-toggler-icon
+      .collapse.navbar-collapse#navbarNav
+        ul.navbar-nav.ml-auto
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(href="/multiplicar", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false") Operaciones
+            ul.dropdown-menu
+              li.nav-item
+                a.nav-link(href="/multiplicar") Tabla de Multiplicar
+              li.nav-item
+                a.nav-link(href="/generarQuiniela") Generar Quiniela
+              li.nav-item
+                a.nav-link(href="/") Salir
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false") Ayuda
+            ul.dropdown-menu
+              li.nav-item
+                button.nav-link(data-toggle="modal", data-target="#exampleModal") Acerca De
+
+  .container
+    h2#numClientes
+    h1.text-center= name
+    table.table.table-bordered.table-striped
+      thead
+        tr
+          th(scope="col") Bloques
+          th(scope="col") Resultado
+      tbody
+
+    .text-center
+    button.btn.btn-primary(type="button", onclick="generarQuiniela()") Generar Quiniela
+
+  .modal.fade#exampleModal(tabindex="-1", aria-labelledby="exampleModalLabel", aria-hidden="true")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          h5.modal-title Acerca De
+          button.btn-close(type="button", data-dismiss="modal", aria-label="Close")
+        .modal-body
+          | Esto es una prueba
+        .modal-footer
+          button.btn.btn-info(type="button", data-dismiss="modal") Cerrar
+
+  script(src="/socket.io/socket.io.js")
+  script.
+    const socket = io();
+    const numClientes = document.getElementById('numClientes');
+
+    socket.on('num_Clientes', num => {
+      numClientes.innerText = `Clientes conectados: ${num}`;
+    });
+
+    async function generarQuiniela() {
+      try {
+        const response = await fetch('/generarQuiniela', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Error generando la quiniela.');
+        }
+
+        const quiniela = await response.json();
+
+        console.log('Quiniela generada:', quiniela);
+        quiniela.forEach((opcion, index) => {
+          const newRow = document.createElement('tr');
+          newRow.innerHTML = `<td>${index + 1}</td><td>${opcion}</td>`;
+          document.querySelector('tbody').appendChild(newRow);
+        });
+
+
+        document.querySelector('.btn-primary').style.display = 'none';
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error generando la quiniela.');
+      }
+    }
