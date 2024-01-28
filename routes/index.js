@@ -5,7 +5,7 @@ const generarQuiniela = require('../helpers/generarQuiniela');
 
 router.get('/', function(req, res, next) {
   res.render('index', {
-  title: 'Ejercicios Express 1',
+  title: 'Ejercicios Express-1',
   name: 'Tabla de Multiplicar desde el sitio /' });
 });
 
